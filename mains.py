@@ -92,23 +92,24 @@ def create_bar(name, values):
 
 def create_radial(models, name, values):
 
-    for item in values:
-        item += item[:1]
-
+    closed_values = [item + item[:1] for item in values]
     angles = np.linspace(0, 2 * np.pi, len(name), endpoint=False).tolist()
     angles += angles[:1]
+
+    max_val = max(max(v) for v in values)
+    ylim_max = max_val * 1.2 if max_val > 0 else 2
 
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(projection="polar"))
     colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12']
 
-    for i in range(len(values)):
-        ax.plot(angles, values[i], "o-", linewidth=2, label=models[i],
+    for i in range(len(closed_values)):
+        ax.plot(angles, closed_values[i], "o-", linewidth=2, label=models[i],
                 color=colors[i % len(colors)])
-        ax.fill(angles, values[i], alpha=0.15, color=colors[i % len(colors)])
+        ax.fill(angles, closed_values[i], alpha=0.15, color=colors[i % len(colors)])
 
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(name, fontsize=11)
-    ax.set_ylim(0, 2)
+    ax.set_ylim(0, ylim_max)
     ax.grid(True, alpha=0.3)
 
     # Легенда и заголовок
