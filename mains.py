@@ -118,7 +118,7 @@ def create_radial(models, name, values):
     plt.tight_layout()
     plt.show()
 
-
-data = get_quality(get_normal(char))
+normalized_data = get_normal(char)
+data = get_quality(normalized_data)
 create_bar(models, data)
-create_radial(models, name_char, get_normal(char))
+create_radial(models, name_char, normalized_data)
